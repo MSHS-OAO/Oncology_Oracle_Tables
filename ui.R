@@ -1,6 +1,9 @@
 sidebar <- dashboardSidebar(
-  sidebarMenu("Departments", tabName = "department")
-)
+              sidebarMenu(
+                menuItem("Department", tabName = "department"),
+                menuItem("Visit Type", tabName = "visit_type")
+              )
+            )
 
 body <- dashboardBody(
           tabItems(
