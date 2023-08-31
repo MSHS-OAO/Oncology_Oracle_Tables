@@ -23,7 +23,7 @@ dx_groupings_last_arrived <- tbl(con, "ONCOLOGY_DX_GROUPINGS_LAST_ARRIVED")
 
 race_groupings_last_arrived <- tbl(con, "ONCOLOGY_RACE_GROUPINGS_LAST_ARRIVED")
 
-ethnicity_groupings_last_arrived <- tbl(con, "ONCOLOGY_ETHNICITY_GROUPINGS_LAST_ARRIVED")
+#ethnicity_groupings_last_arrived <- tbl(con, "ONCOLOGY_ETHNICITY_GROUPINGS_LAST_ARRIVED")
 
 source("modules/rhandson.R")
 
