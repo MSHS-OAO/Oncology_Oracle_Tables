@@ -5,8 +5,8 @@ sidebar <- dashboardSidebar(
                 menuItem("Disease", tabName = "disease"),
                 menuItem("Zip Code", tabName = "zip_code"),
                 menuItem("Diagnosis", tabName = "diagnosis"),
-                menuItem("Race", tabName = "race"),
-                menuItem("Ethnicity", tabName = "ethnicity")
+                menuItem("Race", tabName = "race")#,
+                #menuItem("Ethnicity", tabName = "ethnicity")
                 
                 
               )
