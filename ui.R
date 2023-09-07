@@ -44,9 +44,9 @@ body <- dashboardBody(
               rHandsontableOutput("zip_code_table"),
               column(5),
               downloadButton("zip_code_table_download", "Download Zip Code Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
-              h3("Items Needing Updates"),
-              rHandsontableOutput("zip_code_submit_table")
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")#,
+              # h3("Items Needing Updates"),
+              # rHandsontableOutput("zip_code_submit_table")
               
             ),
             tabItem(
@@ -63,13 +63,13 @@ body <- dashboardBody(
                 column(5),
                 downloadButton("race_breakdown_table_download", "Download Race Grouper Table", width = '100%',
                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
-              ),
-              h3("Items Needing Updates"),
-              fluidRow(
-
-                  rHandsontableOutput("race_submit_table")
-                  
-              )
+              )#,
+              # h3("Items Needing Updates"),
+              # fluidRow(
+              # 
+              #     rHandsontableOutput("race_submit_table")
+              #     
+              # )
             ),
             tabItem(
               tabName = "ethnicity",
