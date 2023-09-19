@@ -27,10 +27,10 @@ body <- dashboardBody(
                 rHandsontableOutput("department_submit_table"),
                 br(),
               column(5),
-              column(2,
+              column(1,
                      actionButton("department_submit", "Submit",
                                   width = '100%',
-                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
               br()
@@ -48,10 +48,10 @@ body <- dashboardBody(
               rHandsontableOutput("visit_type_submit_table"),
               br(),
               column(5),
-              column(2,
+              column(1,
                      actionButton("visit_type_submit", "Submit",
                                   width = '100%',
-                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
               br()
@@ -67,10 +67,10 @@ body <- dashboardBody(
               rHandsontableOutput("disease_group_submit_table"),
               br(),
               column(5),
-              column(2,
+              column(1,
                      actionButton("disease_submit", "Submit",
                                   width = '100%',
-                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
               br(),
@@ -89,10 +89,10 @@ body <- dashboardBody(
               
               br(),
               column(5),
-              column(2,
+              column(1,
                      actionButton("zip_code_submit", "Submit",
                                   width = '100%',
-                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
               br()
@@ -109,10 +109,10 @@ body <- dashboardBody(
               rHandsontableOutput("dx_grouper_submit_table"),
               br(),
               column(5),
-              column(2,
+              column(1,
                      actionButton("diagnosis_grouper_submit", "Submit",
                                   width = '100%',
-                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
               br()
@@ -130,10 +130,10 @@ body <- dashboardBody(
                   rHandsontableOutput("race_submit_table"),
                   br(),
                   column(5),
-                  column(2,
+                  column(1,
                          actionButton("race_grouper_submit", "Submit",
                                       width = '100%',
-                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                                      style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                          )
                   ),
                   br()
