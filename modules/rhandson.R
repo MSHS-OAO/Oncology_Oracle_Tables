@@ -4,10 +4,20 @@ RhandsonUI <- function(id) {
   )
 }
 
+submitButtonUI <- function(id) {
+  ns <- NS(id)
+  tagList(
+    actionButton(ns("submit_button_test"), "Submit",
+                 width = '100%',
+                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                 )
+  )
+}
+
 RhandsonServer <- function(id, data) {
   moduleServer(id, function(input, output, session) {
     renderRHandsontable({
-      rhandsontable(data, height = 600) %>% hot_table(stretchH = "all") %>%
+      rhandsontable(data) %>% hot_table(stretchH = "all") %>%
         hot_cols(columnSorting = TRUE)
     })
   })
@@ -16,10 +26,12 @@ RhandsonServer <- function(id, data) {
 
 
 
-table_collect <- function(id, table) {
+table_collect <- function(id, table, button) {
   moduleServer(id, function(input, output, session) {
     reactive({
-      data <- table %>% collect()
+      input$button
+      data <- table %>% collect() %>% mutate(across(where(is.numeric), as.integer))
+
     })
     
   })

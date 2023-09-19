@@ -21,7 +21,19 @@ body <- dashboardBody(
               column(5),
                 #column(3,download_buttonUI("department_table_download"))
               downloadButton("department_table_download", "Download Department Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+              
+              h3("Update Department Mapping"),
+                rHandsontableOutput("department_submit_table"),
+                br(),
+              column(5),
+              column(2,
+                     actionButton("department_submit", "Submit",
+                                  width = '100%',
+                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                     )
+              ),
+              br()
               
             ),
             tabItem(
@@ -30,14 +42,41 @@ body <- dashboardBody(
               br(),
               column(5),
               downloadButton("visit_table_download", "Download Visit Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+              
+              h3("Update Visit Type Mapping"),
+              rHandsontableOutput("visit_type_submit_table"),
+              br(),
+              column(5),
+              column(2,
+                     actionButton("visit_type_submit", "Submit",
+                                  width = '100%',
+                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                     )
+              ),
+              br()
             ),
             tabItem(
               tabName = "disease",
               rHandsontableOutput("disease_table"),
               column(5),
               downloadButton("disease_table_download", "Download Disease Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+              
+              h3("Update Disease Group Mapping"),
+              rHandsontableOutput("disease_group_submit_table"),
+              br(),
+              column(5),
+              column(2,
+                     actionButton("disease_submit", "Submit",
+                                  width = '100%',
+                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                     )
+              ),
+              br(),
+              br(),
+              br()
+              
             ),
             tabItem(
               tabName = "zip_code",
@@ -46,7 +85,17 @@ body <- dashboardBody(
               downloadButton("zip_code_table_download", "Download Zip Code Mapping Table", width = '100%',
                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
               h3("Items Needing Updates"),
-              rHandsontableOutput("zip_code_submit_table")
+              rHandsontableOutput("zip_code_submit_table"),
+              
+              br(),
+              column(5),
+              column(2,
+                     actionButton("zip_code_submit", "Submit",
+                                  width = '100%',
+                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                     )
+              ),
+              br()
               
             ),
             tabItem(
@@ -54,7 +103,19 @@ body <- dashboardBody(
               rHandsontableOutput("diagnosis_table"),
               column(5),
               downloadButton("diagnosis_table_download", "Download Diagnosis Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+              
+              h3("Items Needing Updates"),
+              rHandsontableOutput("dx_grouper_submit_table"),
+              br(),
+              column(5),
+              column(2,
+                     actionButton("diagnosis_grouper_submit", "Submit",
+                                  width = '100%',
+                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                     )
+              ),
+              br()
             ),
             tabItem(
               tabName = "race",
@@ -65,11 +126,19 @@ body <- dashboardBody(
                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
               ),
               h3("Items Needing Updates"),
-              fluidRow(
 
-                  rHandsontableOutput("race_submit_table")
+                  rHandsontableOutput("race_submit_table"),
+                  br(),
+                  column(5),
+                  column(2,
+                         actionButton("race_grouper_submit", "Submit",
+                                      width = '100%',
+                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"
+                         )
+                  ),
+                  br()
 
-              )
+              
             ),
             tabItem(
               tabName = "ethnicity",

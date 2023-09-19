@@ -7,13 +7,15 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(shinycssloaders)
 library(rhandsontable)
+library(glue)
+library(assertr)
 
 con <- dbConnect(odbc(), "OAO Cloud DB")
 
 department_table <- tbl(con, "ONCOLOGY_DEPARTMENT_GROUPINGS")
 department_table_last_arrived <- tbl(con, "ONCOLOGY_DEPARTMENT_GROUPINGS_LAST_ARRIVED")
 
-visit_type_groupings_last_arrived <- tbl(con, "ONCOLOGY_PRC_GROUPINGS_LAST_ARRIVED")
+visit_type_groupings_last_arrived <- tbl(con, "ONCOLOGY_PRC_GROUPINGS_LAST_ARRIVED") %>% rename("PRC_NAME" = "APPT_TYPE")
 
 disease_groupings_last_arrived <- tbl(con, "ONCOLOGY_DISEASE_GROUPINGS_LAST_ARRIVED")
 
@@ -28,4 +30,65 @@ race_groupings_missing <- race_groupings_last_arrived %>% filter(is.null(RACE_GR
 #ethnicity_groupings_last_arrived <- tbl(con, "ONCOLOGY_ETHNICITY_GROUPINGS_LAST_ARRIVED")
 
 source("modules/rhandson.R")
+
+remove_whitespace <- function(data) {
+  data <- data %>% mutate(across(where(is.character), trimws))
+  data[rowSums(is.na(data))!=ncol(data), ] 
+  
+  if("LAST_ARRIVED" %in% colnames(data)) {
+     data <- data %>% select(-LAST_ARRIVED)
+  }
+  
+  return(data)
+}
+
+generate_insert_statements_empty_rows <- function(process_data, table) {
+  table_name <- table
+  columns <- paste(colnames(process_data), collapse = ",")
+  process_data <- process_data %>% mutate(across(everything(), as.character))
+  
+  process_data[] <- lapply(process_data, sprintf, fmt = "'%s'")
+  
+  process_data <- process_data %>% mutate(values = paste0("(", col_concat(., sep = ","), ")"))
+  
+  values <- process_data %>% select(values)
+  values <- paste(values$values, collapse = ",")
+  values <- gsub('NA', "", values)
+  
+  
+  statement <- glue('INSERT INTO 
+                     {table}
+                    ({columns}) VALUES
+                    {values}
+                    ')
+
+  return(statement)
+  
+}
+
+generate_insert_statements <- function(process_data, table) {
+  #data <- data %>% select(-LAST_ARRIVED)
+  process_data<- process_data[rowSums(is.na(process_data))!=ncol(process_data)-1, ] 
+  table_name <- table
+  columns <- paste(colnames(process_data), collapse = ",")
+  process_data <- process_data %>% mutate(across(everything(), as.character))
+  
+  process_data[] <- lapply(process_data, sprintf, fmt = "'%s'")
+  
+  process_data <- process_data %>% mutate(values = paste0("(", col_concat(., sep = ","), ")"))
+  
+  values <- process_data %>% select(values)
+  values <- paste(values$values, collapse = ",")
+  values <- gsub('NA', "", values)
+  
+  
+  statement <- glue('INSERT INTO 
+                     {table}
+                    ({columns}) VALUES
+                    {values}
+                    ')
+  
+
+  
+}
 
