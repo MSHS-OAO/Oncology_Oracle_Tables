@@ -202,6 +202,35 @@
         "Built": "R 4.2.3; x86_64-pc-linux-gnu; 2023-04-26 16:09:11 UTC; unix"
       }
     },
+    "assertr": {
+      "Source": "CRAN",
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
+      "description": {
+        "Package": "assertr",
+        "Type": "Package",
+        "Title": "Assertive Programming for R Analysis Pipelines",
+        "Version": "3.0.0",
+        "Authors@R": "person(\"Tony\", \"Fischetti\",\n              email=\"tony.fischetti@gmail.com\",\n              role = c(\"aut\", \"cre\"))",
+        "Description": "Provides functionality to assert conditions\n    that have to be met so that errors in data used in\n    analysis pipelines can fail quickly. Similar to\n    'stopifnot()' but more powerful, friendly, and easier\n    for use in pipelines.",
+        "URL": "https://docs.ropensci.org/assertr/ (website)\nhttps://github.com/ropensci/assertr",
+        "BugReports": "https://github.com/ropensci/assertr/issues",
+        "License": "MIT + file LICENSE",
+        "ByteCompile": "TRUE",
+        "Depends": "R (>= 3.1.0)",
+        "Imports": "dplyr (>= 0.7.0), MASS, methods, stats, utils, rlang (>=\n0.3.0)",
+        "Suggests": "knitr, testthat, magrittr, rmarkdown, tibble, plyr",
+        "VignetteBuilder": "knitr",
+        "RoxygenNote": "7.2.1",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "no",
+        "Packaged": "2022-11-05 22:49:05 UTC; tony",
+        "Author": "Tony Fischetti [aut, cre]",
+        "Maintainer": "Tony Fischetti <tony.fischetti@gmail.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2022-11-05 23:10:02 UTC",
+        "Built": "R 4.2.1; ; 2022-12-14 17:17:10 UTC; unix"
+      }
+    },
     "backports": {
       "Source": "CRAN",
       "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
@@ -3499,16 +3528,16 @@
   },
   "files": {
     "global.R": {
-      "checksum": "db7bd421360b86014b549828795b07c5"
+      "checksum": "31477793af64746dc2bac33454344c60"
     },
     "modules/rhandson.R": {
-      "checksum": "37f1b31a2d40d069af917f25e105e493"
+      "checksum": "ed31222b21cd011b3544aa6ff9c43210"
     },
     "server.R": {
-      "checksum": "e8253eb7efb0f2bfb6102cf2e094559d"
+      "checksum": "43b6746e402aab775b3007d6a2a09cfc"
     },
     "ui.R": {
-      "checksum": "78bf997948ba13b9cbe242a63d0a4961"
+      "checksum": "ecf40836b209f098aacae395eb4c9472"
     }
   },
   "users": null
