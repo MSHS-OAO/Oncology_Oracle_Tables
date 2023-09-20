@@ -33,7 +33,10 @@ body <- dashboardBody(
                                   style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
-              br()
+              br(),
+              br(),
+              column(3.5),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
             tabItem(
@@ -54,7 +57,10 @@ body <- dashboardBody(
                                   style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
-              br()
+              br(),
+              br(),
+              column(3.5),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
             ),
             tabItem(
               tabName = "disease",
@@ -75,7 +81,8 @@ body <- dashboardBody(
               ),
               br(),
               br(),
-              br()
+              column(3.5),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
             tabItem(
@@ -95,7 +102,10 @@ body <- dashboardBody(
                                   style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
-              br()
+              br(),
+              br(),
+              column(3.5),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
             tabItem(
@@ -115,7 +125,10 @@ body <- dashboardBody(
                                   style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                      )
               ),
-              br()
+              br(),
+              br(),
+              column(3.5),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
             ),
             tabItem(
               tabName = "race",
@@ -136,7 +149,10 @@ body <- dashboardBody(
                                       style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
                          )
                   ),
-                  br()
+                  br(),
+              br(),
+              column(3.5),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
 
               
             ),
