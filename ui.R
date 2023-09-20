@@ -35,7 +35,7 @@ body <- dashboardBody(
               ),
               br(),
               br(),
-              column(3.5),
+              column(3),
               p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
@@ -59,7 +59,7 @@ body <- dashboardBody(
               ),
               br(),
               br(),
-              column(3.5),
+              column(3),
               p("Please note any submissions made will be reflected in the data the following day by 8am")
             ),
             tabItem(
@@ -81,7 +81,7 @@ body <- dashboardBody(
               ),
               br(),
               br(),
-              column(3.5),
+              column(3),
               p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
@@ -104,7 +104,7 @@ body <- dashboardBody(
               ),
               br(),
               br(),
-              column(3.5),
+              column(3),
               p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
@@ -127,7 +127,7 @@ body <- dashboardBody(
               ),
               br(),
               br(),
-              column(3.5),
+              column(3),
               p("Please note any submissions made will be reflected in the data the following day by 8am")
             ),
             tabItem(
@@ -151,7 +151,7 @@ body <- dashboardBody(
                   ),
                   br(),
               br(),
-              column(3.5),
+              column(3),
               p("Please note any submissions made will be reflected in the data the following day by 8am")
 
               
