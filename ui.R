@@ -161,8 +161,23 @@ body <- dashboardBody(
               rHandsontableOutput("ethnicity_table"),
               br(),
               column(5),
-              downloadButton("ethnicity_table_download", "Download Visit Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+              downloadButton("ethnicity_table_download", "Download Ethnicity Grouper Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+              
+              h3("Update Ethnicity Grouper Mapping"),
+              rHandsontableOutput("ethnicity_grouper_submit_table"),
+              br(),
+              column(5),
+              column(1,
+                     actionButton("ethnicity_grouper_type_submit", "Submit",
+                                  width = '100%',
+                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+                     )
+              ),
+              br(),
+              br(),
+              column(3),
+              p("Please note any submissions made will be reflected in the data the following day by 8am")
             )
           )
         )

@@ -193,6 +193,23 @@ server <- function(input, output, session) {
           write.csv(ethnicity_data(),file, row.names = F)
         }
       )
+      
+      ethnicity_data_missing <- eventReactive(input$ethnicity_grouper_type_submit, {
+        data <- ethnicity_groupings_last_arrived %>% filter(is.na(ETHNICITY_GROUPER)) %>% collect() %>% filter(!is.na(ETHNIC_BACKGROUND)) %>% mutate(LAST_ARRIVED = as.character(LAST_ARRIVED))
+      }, ignoreNULL = FALSE)
+      
+      output$ethnicity_grouper_submit_table <- renderRHandsontable({
+        data <- ethnicity_data_missing()
+        ethnicity_grouper <- ethnicity_groupings_last_arrived %>% select(ETHNICITY_GROUPER) %>% distinct() %>% collect()
+        
+        
+        rhandsontable(data) %>% hot_table(stretchH = "all") %>%
+          hot_cols(columnSorting = TRUE) %>%
+          hot_col(col = "ETHNICITY_GROUPER", type = "autocomplete", source = sort(unique(ethnicity_grouper$ETHNICITY_GROUPER)), strict = TRUE)
+          
+        
+      })
+      
     }
   })
   
@@ -316,6 +333,32 @@ server <- function(input, output, session) {
     error = function(err){showModal(modalDialog(
       title = "Error",
       paste0("There seems to be an issue submitting the race mappings", err),
+      easyClose = TRUE,
+      footer = NULL
+    ))
+    })
+    
+  })
+  
+  
+  observeEvent(input$ethnicity_grouper_type_submit, {
+    print("observer visit")
+    tryCatch({ table_data <- hot_to_r(input$ethnicity_grouper_submit_table)
+    process_data <- remove_whitespace(table_data)
+    insert <- generate_insert_statements(process_data, "ONCOLOGY_ETHNICITY_GROUPER")
+    dbExecute(con, insert)
+    showModal(modalDialog(
+      title = "Success",
+      paste0("The Ethnicity Grouper Mapping has been updated."),
+      easyClose = TRUE,
+      footer = NULL
+    ))
+    
+    }, 
+    
+    error = function(err){showModal(modalDialog(
+      title = "Error",
+      paste0("There seems to be an issue submitting the new ethnicity groupers", err),
       easyClose = TRUE,
       footer = NULL
     ))
