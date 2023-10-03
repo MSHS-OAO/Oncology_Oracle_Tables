@@ -161,7 +161,7 @@ body <- dashboardBody(
               rHandsontableOutput("ethnicity_table"),
               br(),
               column(5),
-              downloadButton("visit_table_download", "Download Visit Mapping Table", width = '100%',
+              downloadButton("ethnicity_table_download", "Download Visit Mapping Table", width = '100%',
                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
             )
           )
