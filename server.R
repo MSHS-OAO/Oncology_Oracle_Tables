@@ -184,6 +184,15 @@ server <- function(input, output, session) {
       ethnicity_data <- table_collect("ethnicity_data", ethnicity_groupings_last_arrived)
       
       output$ethnicity_table <- RhandsonServer("ethnicity_table", ethnicity_data())
+      
+      output$ethnicity_table_download <- downloadHandler(
+        filename = function(){
+          paste0("ethnicity_grouper_mapping ", Sys.Date(), ".csv")
+        },
+        content = function(file) {
+          write.csv(ethnicity_data(),file, row.names = F)
+        }
+      )
     }
   })
   

@@ -5,8 +5,8 @@ sidebar <- dashboardSidebar(
                 menuItem("Disease Group", tabName = "disease"),
                 menuItem("Zip Code", tabName = "zip_code"),
                 menuItem("Diagnosis", tabName = "diagnosis"),
-                menuItem("Race", tabName = "race")#,
-                #menuItem("Ethnicity", tabName = "ethnicity")
+                menuItem("Race", tabName = "race"),
+                menuItem("Ethnicity", tabName = "ethnicity")
                 
                 
               )
@@ -158,7 +158,11 @@ body <- dashboardBody(
             ),
             tabItem(
               tabName = "ethnicity",
-              rHandsontableOutput("ethnicity_table")
+              rHandsontableOutput("ethnicity_table"),
+              br(),
+              column(5),
+              downloadButton("visit_table_download", "Download Visit Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
             )
           )
         )
