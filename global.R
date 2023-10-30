@@ -54,12 +54,23 @@ generate_insert_statements_empty_rows <- function(process_data, table) {
   values <- process_data %>% select(values)
   values <- paste(values$values, collapse = ",")
   values <- gsub('NA', "", values)
+  # values <- gsub(';', "\\\\;", values)
   
   
-  statement <- glue('INSERT INTO 
-                     {table}
-                    ({columns}) VALUES
+  inserts <- lapply(
+    lapply(
+      lapply(split(values , 
+                   1:nrow(values)),
+             as.list), 
+      as.character),
+    FUN = get_values ,columns = columns, table_name = table)
+  
+  values <- glue_collapse(inserts,sep = "\n\n")
+  
+  
+  statement <- glue('INSERT ALL
                     {values}
+                    SELECT 1 from DUAL;
                     ')
 
   return(statement)
@@ -78,17 +89,36 @@ generate_insert_statements <- function(process_data, table) {
   process_data <- process_data %>% mutate(values = paste0("(", col_concat(., sep = ","), ")"))
   
   values <- process_data %>% select(values)
-  values <- paste(values$values, collapse = ",")
-  values <- gsub('NA', "", values)
+  # values <- paste(values$values, collapse = ",")
+  values$values <- gsub('NA', "", values$values)
+  # values$values <- gsub(';', "\\\\;", values$values)
+  
+  inserts <- lapply(
+    lapply(
+      lapply(split(values , 
+                   1:nrow(values)),
+             as.list), 
+      as.character),
+    FUN = get_values ,columns = columns, table_name = table)
+  
+  values <- glue_collapse(inserts,sep = "\n\n")
   
   
-  statement <- glue('INSERT INTO 
-                     {table}
-                    ({columns}) VALUES
+  statement <- glue('INSERT ALL
                     {values}
+                    SELECT 1 from DUAL;
                     ')
   
 
   
+}
+
+
+get_values <- function(x, columns,table_name){
+  
+  values <- glue("INTO \"{table_name}\" ({columns}) 
+                 VALUES{x}")
+  
+  return(values)
 }
 

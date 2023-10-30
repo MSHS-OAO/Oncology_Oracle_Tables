@@ -345,6 +345,7 @@ server <- function(input, output, session) {
     print("observer visit")
     tryCatch({ table_data <- hot_to_r(input$ethnicity_grouper_submit_table)
     process_data <- remove_whitespace(table_data)
+    process_data_test <<- process_data
     insert <- generate_insert_statements(process_data, "ONCOLOGY_ETHNICITY_GROUPER")
     dbExecute(con, insert)
     showModal(modalDialog(
