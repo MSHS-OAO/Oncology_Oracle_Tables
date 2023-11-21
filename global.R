@@ -45,6 +45,7 @@ remove_whitespace <- function(data) {
 generate_insert_statements_empty_rows <- function(process_data, table) {
   table_name <- table
   columns <- paste(colnames(process_data), collapse = ",")
+  process_data <- process_data[rowSums(is.na(process_data)) != ncol(process_data), ]
   process_data <- process_data %>% mutate(across(everything(), as.character))
   
   process_data[] <- lapply(process_data, sprintf, fmt = "'%s'")
@@ -52,8 +53,8 @@ generate_insert_statements_empty_rows <- function(process_data, table) {
   process_data <- process_data %>% mutate(values = paste0("(", col_concat(., sep = ","), ")"))
   
   values <- process_data %>% select(values)
-  values <- paste(values$values, collapse = ",")
-  values <- gsub('NA', "", values)
+  # values <- paste(values$values, collapse = ",")
+  values$values <- gsub('NA', "", values)
   # values <- gsub(';', "\\\\;", values)
   
   
