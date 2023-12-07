@@ -79,12 +79,14 @@ server <- function(input, output, session) {
         data[1:5,] <- NA
         disease <- disease_groupings_last_arrived %>% select(DISEASE_GROUP) %>% distinct() %>% collect()
         disease_b <- disease_groupings_last_arrived %>% select(DISEASE_GROUP_B) %>% distinct() %>% collect()
+        provider_type <- disease_groupings_last_arrived %>% select(PROVIDER_TYPE) %>% distinct() %>% collect()
         
         
         rhandsontable(data) %>% hot_table(stretchH = "all") %>%
           hot_cols(columnSorting = TRUE) %>%
           hot_col(col = "DISEASE_GROUP", type = "autocomplete", source = sort(unique(disease$DISEASE_GROUP))) %>%
-          hot_col(col = "DISEASE_GROUP_B", type = "autocomplete", source = sort(unique(disease_b$DISEASE_GROUP_B)))
+          hot_col(col = "DISEASE_GROUP_B", type = "autocomplete", source = sort(unique(disease_b$DISEASE_GROUP_B))) %>%
+          hot_col(col = "PROVIDER_TYPE", type = "autocomplete", source = sort(unique(provider_type$PROVIDER_TYPE)))
         
       })
     }
