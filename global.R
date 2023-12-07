@@ -54,7 +54,7 @@ generate_insert_statements_empty_rows <- function(process_data, table) {
   
   values <- process_data %>% select(values)
   # values <- paste(values$values, collapse = ",")
-  values$values <- gsub('NA', "", values)
+  values$values <- gsub('NA', "", values$values)
   # values <- gsub(';', "\\\\;", values)
   
   
