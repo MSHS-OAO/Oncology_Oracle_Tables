@@ -136,7 +136,7 @@ server <- function(input, output, session) {
       )
       
       dx_missing <- eventReactive(input$diagnosis_grouper_submit, {
-        data <- dx_groupings_last_arrived %>% filter(is.null(DX_GROUPER)) %>% collect() %>% filter(!is.na(DX_GROUPER)) %>% mutate(LAST_ARRIVED = as.character(LAST_ARRIVED))
+        data <- dx_groupings_last_arrived %>% filter(is.null(DX_GROUPER)) %>% collect() %>% filter(!is.na(PRIMARY_DX_CODE)) %>% mutate(LAST_ARRIVED = as.character(LAST_ARRIVED))
       }, ignoreNULL = FALSE)
       output$dx_grouper_submit_table <- renderRHandsontable({
         data <- dx_missing()
