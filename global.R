@@ -11,8 +11,50 @@ library(glue)
 library(assertr)
 library(readxl)
 library(doParallel)
+library(shinyjs)
+
+
+# Constants
+table_mapper <- list("ONCOLOGY_DEPARTMENT_GROUPINGS", 
+                     "ONCOLOGY_PRC_GROUPINGS", 
+                     "ONCOLOGY_DISEASE_GROUPINGS",
+                     "ZIP_CODE_LAYER",
+                     "ONCOLOGY_DX_CODES",
+                     "ONCOLOGY_RACE_GROUPER",
+                     "ONCOLOGY_ETHNICITY_GROUPER")
+
+names(table_mapper) <- c("Department Mapping",
+                         "Visit Types",
+                         "Disease Group",
+                         "Zip Code",
+                         "DX Grouper",
+                         "Race",
+                         "Ethnicity")
+
+table_mapper_st <- lapply(names(table_mapper), function(x) paste0(table_mapper[x],"_ST"))
+names(table_mapper_st) <- names(table_mapper)
+
+
+key_cols <- list("Department Mapping" = "DEPARTMENT_ID",
+                 "Visit Types" = "PRC_NAME",
+                 "Disease Group" = "EPIC_PROVIDER_ID",
+                 "Zip Code" = "ZIP_CODE",
+                 "DX Grouper" = "PRIMARY_DX_CODE",
+                 "Race" = "RACE",
+                 "Ethnicity" = "ETHNIC_BACKGROUND")
+
+update_cols <- list("Department Mapping" = c("DEPARTMENT_NAME",	"SITE"),
+                 "Visit Types" = c("ASSOCIATIONLISTA",	"ASSOCIATIONLISTB",	"ASSOCIATIONLISTT",	"INPERSONVSTELE"),
+                 "Disease Group" = c("PROVIDER_NAME",	"DISEASE_GROUP",	"DISEASE_GROUP_B",	"PROVIDER_TYPE",	"SITE"),
+                 "Zip Code" = c("ZIP_CODE_LAYER_B",	"ZIP_CODE_LAYER_C",	"ZIP_CODE_LAYER_A"),
+                 "DX Grouper" = c("DX_GROUPER",	"DX_DETAIL"),
+                 "Race" = c("RACE_GROUPER",	"RACE_GROUPER_DETAIL"),
+                 "Ethnicity" = c("ETHNICITY_GROUPER"))
+
 
 con <- dbConnect(odbc(), "OAO Cloud DB Staging")
+dsn <- "OAO Cloud DB Staging"
+dsn_oracle <- dsn
 
 department_table <- tbl(con, "ONCOLOGY_DEPARTMENT_GROUPINGS")
 department_table_last_arrived <- tbl(con, "ONCOLOGY_DEPARTMENT_GROUPINGS_LAST_ARRIVED")
@@ -32,6 +74,7 @@ race_groupings_missing <- race_groupings_last_arrived %>% filter(is.null(RACE_GR
 ethnicity_groupings_last_arrived <- tbl(con, "ONCOLOGY_ETHNICITY_GROUPINGS_LAST_ARRIVED")
 
 source("modules/rhandson.R")
+source("modules/write_temporary_table_to_database_and_merge_updated.R")
 
 remove_whitespace <- function(data) {
   data <- data %>% mutate(across(where(is.character), trimws))
