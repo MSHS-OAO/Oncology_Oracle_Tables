@@ -1,3 +1,28 @@
+get_destination_datatypes <- function(dsn,table_name_dest){
+  
+  ddl_query <- glue("SELECT
+                    DISTINCT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION, DATA_SCALE
+                    FROM
+                    all_tab_columns
+                    WHERE
+                    upper(table_name) = '{table_name_dest}';")
+  
+  ch = dbConnect(odbc(), dsn)
+  dbBegin(ch)
+  data_types <- dbGetQuery(ch,ddl_query)
+  dbCommit(ch)
+  dbDisconnect(ch)
+  
+  
+  
+  
+  return(data_types)
+  
+  
+}
+
+
+
 get_values_updated <- function(x, columns,table_name){
   
   values <- glue("INTO \"{table_name}\" ({columns}) 

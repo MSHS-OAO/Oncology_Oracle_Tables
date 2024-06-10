@@ -388,9 +388,16 @@ server <- function(input, output, session) {
       ))
       shinyjs::enable(button_name)
     }else{
-      tryCatch({data_sheets <- lapply(sheets, function(X) readxl::read_excel(mapping_filepath, sheet = X))
+      tryCatch({
+      mapping_filepath <- "/SharedDrive/deans/Presidents/HSPI-PM/Operations Analytics and Optimization/Projects/Service Lines/Oncology/Oncology Data Mapping/DataSubmission/Oncology Mapping File - All May 2024.xlsx"
+      sheets <- readxl::excel_sheets(path = mapping_filepath)
+      data_sheets <- lapply(sheets, function(X) readxl::read_excel(mapping_filepath, sheet = X))
       names(data_sheets) <- sheets
       data_sheets <- lapply(data_sheets, function(X) remove_whitespace(X))
+      
+      # Treating the Association lists in Visit Types
+      data_sheets[['Visit Types']]$ASSOCIATIONLISTA <- gsub('Labs','Lab',data_sheets[['Visit Types']]$ASSOCIATIONLISTA)
+      data_sheets[['Visit Types']]$ASSOCIATIONLISTA <- gsub('Exams','Exam',data_sheets[['Visit Types']]$ASSOCIATIONLISTA)
       print(sheets)
       flag <- 1},
       
