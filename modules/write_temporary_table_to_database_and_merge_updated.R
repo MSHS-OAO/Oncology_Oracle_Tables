@@ -1,4 +1,4 @@
-get_destination_datatypes <- function(dsn,table_name_dest){
+get_destination_datatypes_query <- function(dsn,table_name_dest){
   
   ddl_query <- glue("SELECT
                     DISTINCT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION, DATA_SCALE
@@ -8,15 +8,26 @@ get_destination_datatypes <- function(dsn,table_name_dest){
                     upper(table_name) = '{table_name_dest}';")
   
   ch = dbConnect(odbc(), dsn)
-  dbBegin(ch)
   data_types <- dbGetQuery(ch,ddl_query)
-  dbCommit(ch)
   dbDisconnect(ch)
   
+  data_types <- data_types %>%
+    mutate(DATA_TYPE = str_trim(DATA_TYPE)) %>%
+    mutate(QUERY = case_when(
+      DATA_TYPE == "NUMBER" ~ paste0(COLUMN_NAME," ",DATA_TYPE,'(',DATA_PRECISION,',',DATA_SCALE,')'),
+      DATA_TYPE == "VARCHAR2" | DATA_TYPE == "CHAR" ~ paste0(COLUMN_NAME," ",DATA_TYPE,'(',DATA_LENGTH,' BYTE',')'),
+      DATA_TYPE == "DATE" ~ paste0(COLUMN_NAME," ",DATA_TYPE),
+      str_detect(DATA_TYPE, "TIMESTAMP") ~ paste0(COLUMN_NAME," ",str_sub(DATA_TYPE, 1, 9))
+    ))
   
+  columns <- glue_collapse(data_types$QUERY,sep =",\n")
+  table_name <- paste0(table_name_dest,"_ST")
+  ddl <- glue("CREATE TABLE {table_name}
+              (
+                {columns}
+              );" )
   
-  
-  return(data_types)
+  return(ddl)
   
   
 }
