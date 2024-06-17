@@ -401,7 +401,10 @@ server <- function(input, output, session) {
       
       #Formating Zip Codes
       data_sheets[['Zip Code']] <- data_sheets[['Zip Code']] %>%
-        mutate(ZIP_CODE = str_pad(ZIP_CODE, 5, pad = "0"))
+        mutate(ZIP_CODE = str_pad(ZIP_CODE, 5, pad = "0"),
+               ZIP_CODE_LAYER_C = na_if(ZIP_CODE_LAYER_C, "-"))
+      
+      data_sheets <- lapply(data_sheets, function(df) df[rowSums(is.na(df)) != ncol(df), ])
       
       print(sheets)
       flag <- 1},
