@@ -187,6 +187,8 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
   error = function(err){
     print("error")
     dbRollback(ch)
+    dbExecute(ch,drop_query)
+    dbCommit(ch)
     dbDisconnect(ch)
     if(isRunning()) {
       showModal(modalDialog(
