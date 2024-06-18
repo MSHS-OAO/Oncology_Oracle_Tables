@@ -411,7 +411,7 @@ server <- function(input, output, session) {
       
       error = function(err){  showModal(modalDialog(
         title = "Error",
-        paste0("There seems to be an storing the Cost Center Mapping Data"),
+        paste0("There seems to be an storing the Mapping Data"),
         easyClose = TRUE,
         footer = NULL
       ))
@@ -434,7 +434,7 @@ server <- function(input, output, session) {
         },
         error = function(err){  showModal(modalDialog(
           title = "Error",
-          paste0("There seems to be an storing the Cost Center Mapping Data"),
+          paste0("There seems to be an storing the Mapping Data"),
           easyClose = TRUE,
           footer = NULL
         ))

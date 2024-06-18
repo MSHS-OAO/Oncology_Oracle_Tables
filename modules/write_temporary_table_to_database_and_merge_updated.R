@@ -45,6 +45,7 @@ get_values_updated <- function(x, columns,table_name){
 
 write_temporary_table_to_database_and_merge_updated <- function(data, key_columns, destination_table_name, source_table_name, update_columns) {
   
+
   process_data <- data %>% mutate_if(is.character, function(x) gsub("\'", "''", x)) %>%
                   mutate_if(is.character, function(x) gsub("&", "' || chr(38) || '", x)) %>%
                   mutate_if(is.character, function(x) paste0("'", x, "'")) %>%
@@ -97,23 +98,37 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
   #glue statement to drop table
   drop_query <- glue('DROP TABLE {source_table_name};')
   
+  # Drop staging table  and create one if doesn'r exist
+  tryCatch({
+    ch = dbConnect(odbc(), dsn)
+    dbBegin(ch)
+    dbExecute(ch,copy_table_query)
+    dbCommit(ch)
+    dbDisconnect(ch)
+  },
+  error = function(err){
+    dbRollback(ch)
+    dbBegin(ch)
+    dbExecute(ch,drop_query)
+    dbExecute(ch,copy_table_query)
+    dbCommit(ch)
+    dbDisconnect(ch)
+    
+  })
+  
   
 
   # Clear the staging data
   tryCatch({
     ch = dbConnect(odbc(), dsn)
     dbBegin(ch)
-    if(dbExistsTable(ch,source_table_name)){
-      dbExecute(ch,drop_query)
-      
-    }
-    dbExecute(ch,copy_table_query)
     dbExecute(ch,truncate_query)
     dbCommit(ch)
     dbDisconnect(ch)
   },
   error = function(err){
-    print("error")
+    print(err)
+    print("error1")
     dbRollback(ch)
     dbDisconnect(ch)
     
@@ -175,14 +190,12 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
     dbExecute(ch, merge_query)
     dbExecute(ch,drop_query)
     dbCommit(ch)
-    dbBegin(ch)
-    dbCommit(ch)
     dbDisconnect(ch)
     print("success")
     if(isRunning()) {
       showModal(modalDialog(
         title = "Success",
-        paste0("The data has been submitted successfully."),
+        paste0(destination_table_name, " data has been submitted successfully."),
         easyClose = TRUE,
         footer = NULL
       ))
@@ -198,7 +211,7 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
     if(isRunning()) {
       showModal(modalDialog(
         title = "Error",
-        paste0("There was an issue submitting the data."),
+        paste0("There was an issue submitting the ",destination_table_name),
         easyClose = TRUE,
         footer = NULL
       ))
