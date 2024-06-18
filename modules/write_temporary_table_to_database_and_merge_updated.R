@@ -97,10 +97,16 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
   #glue statement to drop table
   drop_query <- glue('DROP TABLE {source_table_name};')
   
+  
+
   # Clear the staging data
   tryCatch({
     ch = dbConnect(odbc(), dsn)
     dbBegin(ch)
+    if(dbExistsTable(ch,source_table_name)){
+      dbExecute(ch,drop_query)
+      
+    }
     dbExecute(ch,copy_table_query)
     dbExecute(ch,truncate_query)
     dbCommit(ch)
@@ -167,9 +173,9 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
   tryCatch({
     dbBegin(ch)
     dbExecute(ch, merge_query)
+    dbExecute(ch,drop_query)
     dbCommit(ch)
     dbBegin(ch)
-    dbExecute(ch,drop_query)
     dbCommit(ch)
     dbDisconnect(ch)
     print("success")
@@ -187,7 +193,6 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
   error = function(err){
     print("error")
     dbRollback(ch)
-    dbExecute(ch,drop_query)
     dbCommit(ch)
     dbDisconnect(ch)
     if(isRunning()) {
