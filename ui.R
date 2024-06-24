@@ -18,10 +18,11 @@ body <- dashboardBody(
             tabItem(
               tabName = "datasubmission",
               tabPanel("Data Mapping", br(),
+                       column(6, offset = 3,
                        fileInput("data_mappings", 
                                  label = "Please upload Mapping File",
                                  accept = ".xlsx",
-                                 width = '100%'),
+                                 width = '100%')),
                        column(4, offset = 4,
                        actionButton("submit_mappings", 
                                     label = "Submit",
