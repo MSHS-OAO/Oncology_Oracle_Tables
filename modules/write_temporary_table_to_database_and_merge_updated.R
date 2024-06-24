@@ -98,7 +98,7 @@ write_temporary_table_to_database_and_merge_updated <- function(data, key_column
   #glue statement to drop table
   drop_query <- glue('DROP TABLE {source_table_name};')
   
-  # Drop staging table  and create one if doesn'r exist
+  # Drop staging table  and create one if doesn't exist
   tryCatch({
     ch = dbConnect(odbc(), dsn)
     dbBegin(ch)
