@@ -426,10 +426,10 @@ server <- function(input, output, session) {
           
           lapply(sheets,function(x) write_temporary_table_to_database_and_merge_updated(
             data = as.data.frame(unname(data_sheets[x])),
-            key_columns = unname(key_cols[[x]]),
-            destination_table_name =  unname(table_mapper[x]),
-            source_table_name = unname(table_mapper_st[x]),
-            update_columns = unname(update_cols[[x]])))
+            key_columns = unlist(unname(key_cols[[x]])),
+            destination_table_name =  unlist(unname(table_mapper[x])),
+            source_table_name = unlist(unname(table_mapper_st[x])),
+            update_columns = unlist(unname(update_cols[[x]]))))
           
         },
         error = function(err){  showModal(modalDialog(
