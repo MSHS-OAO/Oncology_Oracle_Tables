@@ -15,17 +15,17 @@ server <- function(input, output, session) {
         }
       )
       
-      output$department_submit_table <- renderRHandsontable({
-                                          input$department_submit
-                                          data <- department_data()[0, ] %>% select(-LAST_ARRIVED) 
-                                          data[1:5,] <- NA
-                                          site <- department_table_last_arrived %>% select(SITE) %>% distinct() %>% collect()
-                                          
-                                          rhandsontable(data) %>% hot_table(stretchH = "all") %>%
-                                            hot_cols(columnSorting = TRUE) %>%
-                                            hot_col(col = "SITE", type = "autocomplete", source = sort(unique(site$SITE)), strict = TRUE)
-                                        })
-      
+    #   output$department_submit_table <- renderRHandsontable({
+    #                                       input$department_submit
+    #                                       data <- department_data()[0, ] %>% select(-LAST_ARRIVED) 
+    #                                       data[1:5,] <- NA
+    #                                       site <- department_table_last_arrived %>% select(SITE) %>% distinct() %>% collect()
+    #                                       
+    #                                       rhandsontable(data) %>% hot_table(stretchH = "all") %>%
+    #                                         hot_cols(columnSorting = TRUE) %>%
+    #                                         hot_col(col = "SITE", type = "autocomplete", source = sort(unique(site$SITE)), strict = TRUE)
+    #                                     })
+    #   
     }
     
     if(input$sbm == 'visit_type') {
@@ -218,159 +218,235 @@ server <- function(input, output, session) {
   })
   
   
-  observeEvent(input$department_submit, {
-    tryCatch({ table_data <- hot_to_r(input$department_submit_table)
-    process_data <- remove_whitespace(table_data)
-    # dbAppendTable(con, "ONCOLOGY_DEPARTMENT_GROUPINGS", process_data)
-    insert <- generate_insert_statements_empty_rows(process_data, "ONCOLOGY_DEPARTMENT_GROUPINGS")
-    dbExecute(con, insert)
-    showModal(modalDialog(
-      title = "Success",
-      paste0("The Department Mapping has been updated."),
-      easyClose = TRUE,
-      footer = NULL
-    ))
+  # observeEvent(input$department_submit, {
+  #   tryCatch({ table_data <- hot_to_r(input$department_submit_table)
+  #   process_data <- remove_whitespace(table_data)
+  #   # dbAppendTable(con, "ONCOLOGY_DEPARTMENT_GROUPINGS", process_data)
+  #   insert <- generate_insert_statements_empty_rows(process_data, "ONCOLOGY_DEPARTMENT_GROUPINGS")
+  #   dbExecute(con, insert)
+  #   showModal(modalDialog(
+  #     title = "Success",
+  #     paste0("The Department Mapping has been updated."),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   
+  #   }, 
+  #   
+  #   error = function(err){showModal(modalDialog(
+  #     title = "Error",
+  #     paste0("There seems to be an issue submitting the new departments.", err),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   })
+  #   
+  # })
+  
+  
+  
+  # observeEvent(input$visit_type_submit, {
+  #   print("observer visit")
+  #   tryCatch({ table_data <- hot_to_r(input$visit_type_submit_table)
+  #   process_data <- remove_whitespace(table_data)
+  #   insert <- generate_insert_statements(process_data, "ONCOLOGY_PRC_GROUPINGS")
+  #   dbExecute(con, insert)
+  #   showModal(modalDialog(
+  #     title = "Success",
+  #     paste0("The Visit Type Mapping has been updated."),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   
+  #   }, 
+  #   
+  #   error = function(err){showModal(modalDialog(
+  #     title = "Error",
+  #     paste0("There seems to be an issue submitting the new visit types", err),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   })
+  #   
+  # })
+  
+  
+  # observeEvent(input$disease_submit, {
+  #   tryCatch({ table_data <- hot_to_r(input$disease_group_submit_table)
+  #   process_data <- remove_whitespace(table_data)
+  #   insert <- generate_insert_statements_empty_rows(process_data, "ONCOLOGY_DISEASE_GROUPINGS")
+  #   dbExecute(con, insert)
+  #   showModal(modalDialog(
+  #     title = "Success",
+  #     paste0("The Disease Mapping has been updated."),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   
+  #   }, 
+  #   
+  #   error = function(err){showModal(modalDialog(
+  #     title = "Error",
+  #     paste0("There seems to be an issue submitting the disease mappings", err),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   })
+  #   
+  # })
+  
+  # observeEvent(input$zip_code_submit, {
+  #   tryCatch({ table_data <- hot_to_r(input$zip_code_submit_table)
+  #   process_data <- remove_whitespace(table_data)
+  #   insert <- generate_insert_statements(process_data, "ZIP_CODE_LAYER")
+  #   dbExecute(con, insert)
+  #   showModal(modalDialog(
+  #     title = "Success",
+  #     paste0("The Zip Code Mapping has been updated."),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   
+  #   }, 
+  #   
+  #   error = function(err){showModal(modalDialog(
+  #     title = "Error",
+  #     paste0("There seems to be an issue submitting the zip code mappings", err),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   })
+  #   
+  # })
+  
+  # observeEvent(input$race_grouper_submit, {
+  #   tryCatch({ table_data <- hot_to_r(input$race_submit_table)
+  #   print("observer")
+  #   process_data <- remove_whitespace(table_data)
+  #   insert <- generate_insert_statements(process_data, "ONCOLOGY_RACE_GROUPER")
+  #   dbExecute(con, insert)
+  #   showModal(modalDialog(
+  #     title = "Success",
+  #     paste0("The Race Mapping has been updated."),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   
+  #   }, 
+  #   
+  #   error = function(err){showModal(modalDialog(
+  #     title = "Error",
+  #     paste0("There seems to be an issue submitting the race mappings", err),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   })
+  #   
+  # })
+  
+  
+  # observeEvent(input$ethnicity_grouper_type_submit, {
+  #   print("observer visit")
+  #   tryCatch({ table_data <- hot_to_r(input$ethnicity_grouper_submit_table)
+  #   process_data <- remove_whitespace(table_data)
+  #   process_data_test <<- process_data
+  #   insert <- generate_insert_statements(process_data, "ONCOLOGY_ETHNICITY_GROUPER")
+  #   dbExecute(con, insert)
+  #   showModal(modalDialog(
+  #     title = "Success",
+  #     paste0("The Ethnicity Grouper Mapping has been updated."),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   
+  #   }, 
+  #   
+  #   error = function(err){showModal(modalDialog(
+  #     title = "Error",
+  #     paste0("There seems to be an issue submitting the new ethnicity groupers", err),
+  #     easyClose = TRUE,
+  #     footer = NULL
+  #   ))
+  #   })
+  #   
+  # })
+  
+  ## File Submission ----
+  observeEvent(input$submit_mappings, {
+    button_name <- "submit_mappings"
+    shinyjs::disable(button_name)
+    datamappings <- input$data_mappings
+    mapping_filepath  <- datamappings$datapath
+    flag <- 0
     
-    }, 
-    
-    error = function(err){showModal(modalDialog(
-      title = "Error",
-      paste0("There seems to be an issue submitting the new departments.", err),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    })
+    if(is_null(mapping_filepath)){
+      showModal(modalDialog(
+        title = "Error",
+        paste0("No Datafile uploaded, Please upload the mapping file."),
+        easyClose = TRUE,
+        footer = NULL
+      ))
+      shinyjs::enable(button_name)
+    }else{
+      tryCatch({
+      # mapping_filepath <- "/SharedDrive/deans/Presidents/HSPI-PM/Operations Analytics and Optimization/Projects/Service Lines/Oncology/Oncology Data Mapping/DataSubmission/Oncology Mapping File - All May 2024.xlsx"
+      sheets <- readxl::excel_sheets(path = mapping_filepath)
+      data_sheets <- lapply(sheets, function(X) readxl::read_excel(mapping_filepath, sheet = X))
+      names(data_sheets) <- sheets
+      data_sheets <- lapply(data_sheets, function(X) remove_whitespace(X))
+      
+      # Treating the Association lists in Visit Types
+      data_sheets[['Visit Types']]$ASSOCIATIONLISTA <- gsub('Labs','Lab',data_sheets[['Visit Types']]$ASSOCIATIONLISTA)
+      data_sheets[['Visit Types']]$ASSOCIATIONLISTA <- gsub('Exams','Exam',data_sheets[['Visit Types']]$ASSOCIATIONLISTA)
+      
+      #Formating Zip Codes
+      data_sheets[['Zip Code']] <- data_sheets[['Zip Code']] %>%
+        mutate(ZIP_CODE = str_pad(ZIP_CODE, 5, pad = "0"),
+               ZIP_CODE_LAYER_C = na_if(ZIP_CODE_LAYER_C, "-"))
+      
+      data_sheets <- lapply(data_sheets, function(df) df[rowSums(is.na(df)) != ncol(df), ])
+      
+      print(sheets)
+      flag <- 1},
+      
+      error = function(err){  showModal(modalDialog(
+        title = "Error",
+        paste0("There seems to be an storing the Mapping Data"),
+        easyClose = TRUE,
+        footer = NULL
+      ))
+        shinyjs::enable(button_name)
+      })
+      if(flag == 1){
+        ##Compare submitted results to what is in the Summary Repo in db and return only updated rows
+        #overtime_summary_data <- file_return_updated_rows(overtime_summary_data)
+        
+        #wirte the updated data to the Supplier Mapping table in the server
+        tryCatch({
+          
+          lapply(sheets,function(x) write_temporary_table_to_database_and_merge_updated(
+            data = as.data.frame(unname(data_sheets[x])),
+            key_columns = unlist(unname(key_cols[[x]])),
+            destination_table_name =  unlist(unname(table_mapper[x])),
+            source_table_name = unlist(unname(table_mapper_st[x])),
+            update_columns = unlist(unname(update_cols[[x]]))))
+          
+        },
+        error = function(err){  showModal(modalDialog(
+          title = "Error",
+          paste0("There seems to be an storing the Mapping Data"),
+          easyClose = TRUE,
+          footer = NULL
+        ))
+          shinyjs::enable(button_name)
+        })
+        
+    }
+      
+    }
+
+  shinyjs::enable(button_name)
     
   })
-  
-  
-  
-  observeEvent(input$visit_type_submit, {
-    print("observer visit")
-    tryCatch({ table_data <- hot_to_r(input$visit_type_submit_table)
-    process_data <- remove_whitespace(table_data)
-    insert <- generate_insert_statements(process_data, "ONCOLOGY_PRC_GROUPINGS")
-    dbExecute(con, insert)
-    showModal(modalDialog(
-      title = "Success",
-      paste0("The Visit Type Mapping has been updated."),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    
-    }, 
-    
-    error = function(err){showModal(modalDialog(
-      title = "Error",
-      paste0("There seems to be an issue submitting the new visit types", err),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    })
-    
-  })
-  
-  
-  observeEvent(input$disease_submit, {
-    tryCatch({ table_data <- hot_to_r(input$disease_group_submit_table)
-    process_data <- remove_whitespace(table_data)
-    insert <- generate_insert_statements_empty_rows(process_data, "ONCOLOGY_DISEASE_GROUPINGS")
-    dbExecute(con, insert)
-    showModal(modalDialog(
-      title = "Success",
-      paste0("The Disease Mapping has been updated."),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    
-    }, 
-    
-    error = function(err){showModal(modalDialog(
-      title = "Error",
-      paste0("There seems to be an issue submitting the disease mappings", err),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    })
-    
-  })
-  
-  observeEvent(input$zip_code_submit, {
-    tryCatch({ table_data <- hot_to_r(input$zip_code_submit_table)
-    process_data <- remove_whitespace(table_data)
-    insert <- generate_insert_statements(process_data, "ZIP_CODE_LAYER")
-    dbExecute(con, insert)
-    showModal(modalDialog(
-      title = "Success",
-      paste0("The Zip Code Mapping has been updated."),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    
-    }, 
-    
-    error = function(err){showModal(modalDialog(
-      title = "Error",
-      paste0("There seems to be an issue submitting the zip code mappings", err),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    })
-    
-  })
-  
-  observeEvent(input$race_grouper_submit, {
-    tryCatch({ table_data <- hot_to_r(input$race_submit_table)
-    print("observer")
-    process_data <- remove_whitespace(table_data)
-    insert <- generate_insert_statements(process_data, "ONCOLOGY_RACE_GROUPER")
-    dbExecute(con, insert)
-    showModal(modalDialog(
-      title = "Success",
-      paste0("The Race Mapping has been updated."),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    
-    }, 
-    
-    error = function(err){showModal(modalDialog(
-      title = "Error",
-      paste0("There seems to be an issue submitting the race mappings", err),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    })
-    
-  })
-  
-  
-  observeEvent(input$ethnicity_grouper_type_submit, {
-    print("observer visit")
-    tryCatch({ table_data <- hot_to_r(input$ethnicity_grouper_submit_table)
-    process_data <- remove_whitespace(table_data)
-    process_data_test <<- process_data
-    insert <- generate_insert_statements(process_data, "ONCOLOGY_ETHNICITY_GROUPER")
-    dbExecute(con, insert)
-    showModal(modalDialog(
-      title = "Success",
-      paste0("The Ethnicity Grouper Mapping has been updated."),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    
-    }, 
-    
-    error = function(err){showModal(modalDialog(
-      title = "Error",
-      paste0("There seems to be an issue submitting the new ethnicity groupers", err),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-    })
-    
-  })
- 
-  
   
 }
