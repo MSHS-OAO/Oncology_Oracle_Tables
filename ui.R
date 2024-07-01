@@ -17,6 +17,7 @@ body <- dashboardBody(
           tabItems(
             tabItem(
               tabName = "datasubmission",
+              useShinyjs(),
               tabPanel("Data Mapping", br(),
                        column(6, offset = 3,
                        fileInput("data_mappings", 
