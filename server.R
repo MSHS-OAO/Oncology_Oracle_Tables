@@ -58,6 +58,16 @@ server <- function(input, output, session) {
                                         hot_col(col = "INPERSONVSTELE", type = "autocomplete", source = c("In Person", "Telehealth"))
                                       
       })
+    
+      output$visit_table_missing_download <- downloadHandler(
+        filename = function(){
+          paste0("visit_data_missing_mapping ", Sys.Date(), ".csv")
+        },
+        content = function(file) {
+          write.csv(visit_data_missing(),file, row.names = F)
+        }
+      )
+      
     }
     if(input$sbm == 'disease') {
       disease_data <- table_collect("disease_data", disease_groupings_last_arrived)
@@ -120,6 +130,16 @@ server <- function(input, output, session) {
           hot_col(col = "ZIP_CODE_LAYER_A", type = "autocomplete", source = sort(unique(zip_code_layer$ZIP_CODE_LAYER_A)), strict = TRUE) 
         
       })
+      
+      output$zip_code_missing_table <- downloadHandler(
+        filename = function(){
+          paste0("zipcode_data_missing_mapping ", Sys.Date(), ".csv")
+        },
+        content = function(file) {
+          write.csv(zip_code_missing(),file, row.names = F)
+        }
+      )
+      
     }
     if(input$sbm == 'diagnosis') {
       diagnosis_data <- table_collect("diagnosis_data", dx_groupings_last_arrived)
@@ -153,6 +173,16 @@ server <- function(input, output, session) {
         
       })
       
+      output$dx_grouper_missing_table <- downloadHandler(
+        filename = function(){
+          paste0("dx_grouper_missing_table ", Sys.Date(), ".csv")
+        },
+        content = function(file) {
+          write.csv(dx_missing(),file, row.names = F)
+        }
+      )
+      
+      
     }
     if(input$sbm == 'race') {
       race_data <- table_collect("race_data", race_groupings_last_arrived)
@@ -183,6 +213,19 @@ server <- function(input, output, session) {
           hot_col(col = "RACE_GROUPER", type = "autocomplete", source = sort(unique(race_grouper$RACE_GROUPER)), strict = TRUE) %>%
           hot_col(col = "RACE_GROUPER_DETAIL", type = "autocomplete", source = sort(unique(race_grouper_detail$RACE_GROUPER_DETAIL)), strict = TRUE)
       })
+      
+      
+      output$race_missing_table <- downloadHandler(
+        filename = function(){
+          paste0("race_mapping_missing_table ", Sys.Date(), ".csv")
+        },
+        content = function(file) {
+          write.csv(race_groupings_missing(),file, row.names = F)
+        }
+      )
+      
+      
+      
     }
     if(input$sbm == 'ethnicity') {
       ethnicity_data <- table_collect("ethnicity_data", ethnicity_groupings_last_arrived)
@@ -213,6 +256,16 @@ server <- function(input, output, session) {
           
         
       })
+      
+      
+      output$ethnicity_grouper_missing_table <- downloadHandler(
+        filename = function(){
+          paste0("ethnicity_mapping_missing_table ", Sys.Date(), ".csv")
+        },
+        content = function(file) {
+          write.csv(ethnicity_data_missing(),file, row.names = F)
+        }
+      )
       
     }
   })
