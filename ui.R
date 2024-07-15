@@ -1,5 +1,6 @@
 sidebar <- dashboardSidebar(
               sidebarMenu(id = 'sbm',
+                menuItem("Data Submssion", tabName = "datasubmission"),
                 menuItem("Department", tabName = "department"),
                 menuItem("Visit Type", tabName = "visit_type"),
                 menuItem("Disease Group", tabName = "disease"),
@@ -15,28 +16,45 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
           tabItems(
             tabItem(
+              tabName = "datasubmission",
+              useShinyjs(),
+              tabPanel("Data Mapping", br(),
+                       column(6, offset = 3,
+                       fileInput("data_mappings", 
+                                 label = "Please upload Mapping File",
+                                 accept = ".xlsx",
+                                 width = '100%')),
+                       column(4, offset = 4,
+                       actionButton("submit_mappings", 
+                                    label = "Submit",
+                                    width = '100%',
+                                    style="color: #fff; background-color: #d80b8c; border-color: #d80b8c")
+                       )
+              )
+            ),
+            tabItem(
               tabName = "department",
                 rHandsontableOutput("department_table"),
               br(),
               column(5),
                 #column(3,download_buttonUI("department_table_download"))
               downloadButton("department_table_download", "Download Department Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
               
-              h3("Update Department Mapping"),
-                rHandsontableOutput("department_submit_table"),
-                br(),
-              column(5),
-              column(1,
-                     actionButton("department_submit", "Submit",
-                                  width = '100%',
-                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                     )
-              ),
-              br(),
-              br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              # h3("Update Department Mapping"),
+              #   rHandsontableOutput("department_submit_table"),
+              #   br(),
+              # column(5),
+              # column(1,
+              #        actionButton("department_submit", "Submit",
+              #                     width = '100%',
+              #                     style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #        )
+              # ),
+              # br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
             tabItem(
@@ -51,38 +69,42 @@ body <- dashboardBody(
               rHandsontableOutput("visit_type_submit_table"),
               br(),
               column(5),
-              column(1,
-                     actionButton("visit_type_submit", "Submit",
-                                  width = '100%',
-                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                     )
-              ),
+              downloadButton("visit_table_missing_download", "Download Missing Visits Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
               br(),
-              br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              column(5)
+              # column(1,
+              #        actionButton("visit_type_submit", "Submit",
+              #                     width = '100%',
+              #                     style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #        )
+              # ),
+              # br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
             ),
             tabItem(
               tabName = "disease",
               rHandsontableOutput("disease_table"),
               column(5),
               downloadButton("disease_table_download", "Download Disease Mapping Table", width = '100%',
-                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
               
-              h3("Update Disease Group Mapping"),
-              rHandsontableOutput("disease_group_submit_table"),
-              br(),
-              column(5),
-              column(1,
-                     actionButton("disease_submit", "Submit",
-                                  width = '100%',
-                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                     )
-              ),
-              br(),
-              br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              # h3("Update Disease Group Mapping"),
+              # rHandsontableOutput("disease_group_submit_table"),
+              # br(),
+              # column(5),
+              # column(1,
+              #        actionButton("disease_submit", "Submit",
+              #                     width = '100%',
+              #                     style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #        )
+              # ),
+              # br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
             tabItem(
@@ -93,19 +115,23 @@ body <- dashboardBody(
                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
               h3("Items Needing Updates"),
               rHandsontableOutput("zip_code_submit_table"),
-              
               br(),
               column(5),
-              column(1,
-                     actionButton("zip_code_submit", "Submit",
-                                  width = '100%',
-                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                     )
-              ),
-              br(),
-              br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              downloadButton("zip_code_missing_table", "Download Missing Zip Code Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+              
+              # br(),
+              # column(5),
+              # column(1,
+              #        actionButton("zip_code_submit", "Submit",
+              #                     width = '100%',
+              #                     style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #        )
+              # ),
+              # br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
               
             ),
             tabItem(
@@ -119,16 +145,21 @@ body <- dashboardBody(
               rHandsontableOutput("dx_grouper_submit_table"),
               br(),
               column(5),
-              column(1,
-                     actionButton("diagnosis_grouper_submit", "Submit",
-                                  width = '100%',
-                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                     )
-              ),
-              br(),
-              br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              downloadButton("dx_grouper_missing_table", "Download Missing DX Grouper Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+              
+              # br(),
+              # column(5),
+              # column(1,
+              #        actionButton("diagnosis_grouper_submit", "Submit",
+              #                     width = '100%',
+              #                     style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #        )
+              # ),
+              # br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
             ),
             tabItem(
               tabName = "race",
@@ -140,19 +171,22 @@ body <- dashboardBody(
               ),
               h3("Items Needing Updates"),
 
-                  rHandsontableOutput("race_submit_table"),
-                  br(),
-                  column(5),
-                  column(1,
-                         actionButton("race_grouper_submit", "Submit",
-                                      width = '100%',
-                                      style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                         )
-                  ),
-                  br(),
+              rHandsontableOutput("race_submit_table"),
               br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              column(5),
+              downloadButton("race_missing_table", "Download Missing Race Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+              #     column(5),
+              #     column(1,
+              #            actionButton("race_grouper_submit", "Submit",
+              #                         width = '100%',
+              #                         style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #            )
+              #     ),
+              #     br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
 
               
             ),
@@ -168,16 +202,19 @@ body <- dashboardBody(
               rHandsontableOutput("ethnicity_grouper_submit_table"),
               br(),
               column(5),
-              column(1,
-                     actionButton("ethnicity_grouper_type_submit", "Submit",
-                                  width = '100%',
-                                  style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
-                     )
-              ),
-              br(),
-              br(),
-              column(3),
-              p("Please note any submissions made will be reflected in the data the following day by 8am")
+              downloadButton("ethnicity_grouper_missing_table", "Download Missing Ethnicity Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+              # column(5),
+              # column(1,
+              #        actionButton("ethnicity_grouper_type_submit", "Submit",
+              #                     width = '100%',
+              #                     style="color: #fff; background-color: #d80b8c; border-color: #d80b8c"
+              #        )
+              # ),
+              # br(),
+              # br(),
+              # column(3),
+              # p("Please note any submissions made will be reflected in the data the following day by 8am")
             )
           )
         )
