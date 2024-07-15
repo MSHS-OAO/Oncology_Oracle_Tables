@@ -68,6 +68,10 @@ body <- dashboardBody(
               h3("Update Visit Type Mapping"),
               rHandsontableOutput("visit_type_submit_table"),
               br(),
+              column(5),
+              downloadButton("visit_table_missing_download", "Download Missing Visits Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+              br(),
               column(5)
               # column(1,
               #        actionButton("visit_type_submit", "Submit",
@@ -110,7 +114,11 @@ body <- dashboardBody(
               downloadButton("zip_code_table_download", "Download Zip Code Mapping Table", width = '100%',
                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
               h3("Items Needing Updates"),
-              rHandsontableOutput("zip_code_submit_table")
+              rHandsontableOutput("zip_code_submit_table"),
+              br(),
+              column(5),
+              downloadButton("zip_code_missing_table", "Download Missing Zip Code Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
               
               # br(),
               # column(5),
@@ -134,7 +142,12 @@ body <- dashboardBody(
                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
               
               h3("Items Needing Updates"),
-              rHandsontableOutput("dx_grouper_submit_table")
+              rHandsontableOutput("dx_grouper_submit_table"),
+              br(),
+              column(5),
+              downloadButton("dx_grouper_missing_table", "Download Missing DX Grouper Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
+              
               # br(),
               # column(5),
               # column(1,
@@ -158,8 +171,11 @@ body <- dashboardBody(
               ),
               h3("Items Needing Updates"),
 
-                  rHandsontableOutput("race_submit_table"),
-                  br()
+              rHandsontableOutput("race_submit_table"),
+              br(),
+              column(5),
+              downloadButton("race_missing_table", "Download Missing Race Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
               #     column(5),
               #     column(1,
               #            actionButton("race_grouper_submit", "Submit",
@@ -184,7 +200,10 @@ body <- dashboardBody(
               
               h3("Update Ethnicity Grouper Mapping"),
               rHandsontableOutput("ethnicity_grouper_submit_table"),
-              br()
+              br(),
+              column(5),
+              downloadButton("ethnicity_grouper_missing_table", "Download Missing Ethnicity Mapping Table", width = '100%',
+                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
               # column(5),
               # column(1,
               #        actionButton("ethnicity_grouper_type_submit", "Submit",
