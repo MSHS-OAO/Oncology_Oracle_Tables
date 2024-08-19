@@ -52,8 +52,8 @@ update_cols <- list("Department Mapping" = c("DEPARTMENT_NAME",	"SITE"),
                  "Ethnicity" = c("ETHNICITY_GROUPER"))
 
 
-con <- dbConnect(odbc(), "OAO Cloud DB Staging")
-dsn <- "OAO Cloud DB Staging"
+con <- dbConnect(odbc(), "OAO Cloud DB")
+dsn <- "OAO Cloud DB"
 dsn_oracle <- dsn
 
 
