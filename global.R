@@ -10,7 +10,7 @@ library(rhandsontable)
 library(glue)
 library(assertr)
 
-con <- dbConnect(odbc(), "OAO Cloud DB")
+con <- dbConnect(odbc(), "OAO Cloud DB Production")
 
 department_table <- tbl(con, "ONCOLOGY_DEPARTMENT_GROUPINGS")
 department_table_last_arrived <- tbl(con, "ONCOLOGY_DEPARTMENT_GROUPINGS_LAST_ARRIVED")
